@@ -1,0 +1,224 @@
+resourceMetrics:
+  - schemaUrl: https://opentelemetry.io/schemas/1.9.0
+    resource:
+      attributes:
+        - key: service.name
+          value:
+            stringValue: test-service
+        - key: service.version
+          value:
+            stringValue: "1.0.0"
+        - key: deployment.environment
+          value:
+            stringValue: "test"
+    scopeMetrics:
+      - schemaUrl: https://opentelemetry.io/schemas/1.9.0
+        scope:
+          name: test-instrumentation
+          version: "1.0.0"
+          attributes:
+            - key: instrumentation.provider
+              value:
+                stringValue: "test"
+        metrics:
+          # System Metrics (20)
+          - name: system.cpu.usage
+            description: "CPU usage percentage"
+            unit: "1"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asDouble: 45.67
+                  attributes:
+                    - key: cpu
+                      value:
+                        stringValue: "0"
+                    - key: mode
+                      value:
+                        stringValue: "user"
+                    - key: state
+                      value:
+                        stringValue: "idle"
+          - name: system.memory.usage
+            description: "Memory usage in bytes"
+            unit: "By"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 1073741824
+                  attributes:
+                    - key: type
+                      value:
+                        stringValue: "heap"
+                    - key: state
+                      value:
+                        stringValue: "used"
+          - name: system.disk.usage
+            description: "Disk usage in bytes"
+            unit: "By"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 5368709120
+                  attributes:
+                    - key: device
+                      value:
+                        stringValue: "/dev/sda1"
+                    - key: mountpoint
+                      value:
+                        stringValue: "/"
+          - name: system.network.io
+            description: "Network I/O in bytes"
+            unit: "By"
+            sum:
+              aggregationTemporality: 1
+              isMonotonic: true
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 1048576
+                  attributes:
+                    - key: interface
+                      value:
+                        stringValue: "eth0"
+                    - key: direction
+                      value:
+                        stringValue: "tx"
+
+          # HTTP Metrics (20)
+          - name: http.server.duration
+            description: "HTTP server request duration"
+            unit: "ms"
+            histogram:
+              aggregationTemporality: 1
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  count: 100
+                  sum: 15000
+                  bucketCounts: [10, 20, 30, 25, 15]
+                  explicitBounds: [100, 200, 300, 400]
+                  attributes:
+                    - key: http.method
+                      value:
+                        stringValue: "GET"
+                    - key: http.route
+                      value:
+                        stringValue: "/api/users"
+                    - key: http.status_code
+                      value:
+                        stringValue: "200"
+          - name: http.server.request.size
+            description: "HTTP server request size"
+            unit: "By"
+            histogram:
+              aggregationTemporality: 1
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  count: 100
+                  sum: 15000
+                  bucketCounts: [10, 20, 30, 25, 15]
+                  explicitBounds: [100, 200, 300, 400]
+                  attributes:
+                    - key: http.method
+                      value:
+                        stringValue: "POST"
+                    - key: http.route
+                      value:
+                        stringValue: "/api/data"
+
+          # Database Metrics (20)
+          - name: db.client.connections
+            description: "Number of active database connections"
+            unit: "1"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 10
+                  attributes:
+                    - key: db.system
+                      value:
+                        stringValue: "postgresql"
+                    - key: db.name
+                      value:
+                        stringValue: "users"
+          - name: db.client.operations.duration
+            description: "Database operation duration"
+            unit: "ms"
+            histogram:
+              aggregationTemporality: 1
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  count: 100
+                  sum: 5000
+                  bucketCounts: [20, 30, 25, 15, 10]
+                  explicitBounds: [50, 100, 200, 500]
+                  attributes:
+                    - key: db.system
+                      value:
+                        stringValue: "postgresql"
+                    - key: db.operation
+                      value:
+                        stringValue: "SELECT"
+
+          # Cache Metrics (20)
+          - name: cache.operations
+            description: "Cache operation count"
+            unit: "1"
+            sum:
+              aggregationTemporality: 1
+              isMonotonic: true
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 1000
+                  attributes:
+                    - key: cache.operation
+                      value:
+                        stringValue: "get"
+                    - key: cache.status
+                      value:
+                        stringValue: "hit"
+          - name: cache.size
+            description: "Cache size in bytes"
+            unit: "By"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 1048576
+                  attributes:
+                    - key: cache.type
+                      value:
+                        stringValue: "memory"
+
+          # Queue Metrics (20)
+          - name: queue.size
+            description: "Queue size in messages"
+            unit: "1"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asInt: 100
+                  attributes:
+                    - key: queue.name
+                      value:
+                        stringValue: "orders"
+                    - key: queue.type
+                      value:
+                        stringValue: "priority"
+          - name: queue.operation.duration
+            description: "Queue operation duration"
+            unit: "ms"
+            histogram:
+              aggregationTemporality: 1
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  count: 100
+                  sum: 3000
+                  bucketCounts: [15, 25, 30, 20, 10]
+                  explicitBounds: [10, 50, 100, 200]
+                  attributes:
+                    - key: queue.name
+                      value:
+                        stringValue: "orders"
+                    - key: queue.operation
+                      value:
+                        stringValue: "publish"
+

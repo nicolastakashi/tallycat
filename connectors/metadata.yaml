@@ -1,0 +1,14 @@
+type: tallycat
+scope_name: otelcol/tallycat
+
+status:
+  class: connector
+  stability:
+    development: [metrics, traces, logs]
+  distributions: []
+  warnings: []
+  codeowners:
+    active: [nicolastakashi]
+tests:
+  skip_lifecycle: true
+  skip_shutdown: true

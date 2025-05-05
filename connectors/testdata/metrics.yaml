@@ -1,0 +1,41 @@
+resourceMetrics:
+  - schemaUrl: https://opentelemetry.io/schemas/1.9.0
+    resource:
+      attributes:
+        - key: service.name
+          value:
+            stringValue: test-service
+        - key: service.version
+          value:
+            stringValue: "1.0.0"
+        - key: deployment.environment.name
+          value:
+            stringValue: "production"
+    scopeMetrics:
+      - schemaUrl: https://opentelemetry.io/schemas/1.9.0
+        scope:
+          name: test-instrumentation
+          version: "1.0.0"
+          attributes:
+            - key: instrumentation.provider
+              value:
+                stringValue: "test"
+        metrics:
+          - name: system.cpu.usage
+            description: "CPU usage percentage"
+            unit: "1"
+            gauge:
+              dataPoints:
+                - timeUnixNano: 1234567890
+                  asDouble: 45.67
+                  attributes:
+                    - key: cpu
+                      value:
+                        stringValue: "0"
+                    - key: mode
+                      value:
+                        stringValue: "user"
+                    - key: state
+                      value:
+                        stringValue: "idle"
+          
